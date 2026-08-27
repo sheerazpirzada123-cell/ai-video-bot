@@ -18,10 +18,12 @@ def generate_video():
     prompt = random.choice(topics)
     print(f"Selected Topic: {prompt}")
 
-    # Hugging Face Space Client Connect
-    client = Client("shazybha12-ai-video-generator")
+    # Hugging Face Token secret se uthayen
+    hf_token = os.environ.get("HF_TOKEN")
     
-    # api_name='/predict' hata kar direct prompt pass kiya gaya hai
+    # Hugging Face Space Client Connect WITH TOKEN
+    client = Client("shazybha12-ai-video-generator", hf_token=hf_token)
+    
     result = client.predict(prompt)
     print("Video generation completed:", result)
     return result
@@ -41,7 +43,7 @@ def upload_to_youtube(video_path):
             "title": "AI Short #Shorts",
             "description": "Auto generated video #shorts #ai",
             "tags": ["shorts", "ai", "animation"],
-            "categoryId": "15" # Pets & Animals / Entertainment
+            "categoryId": "15"
         },
         "status": {
             "privacyStatus": "public",
