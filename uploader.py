@@ -21,8 +21,8 @@ def generate_video():
     # Hugging Face Token secret se uthayen
     hf_token = os.environ.get("HF_TOKEN")
     
-    # Hugging Face Space Client Connect WITH TOKEN
-    client = Client("shazybha12-ai-video-generator", hf_token=hf_token)
+    # Hugging Face Space Client Connect WITH CORRECT PARAMETER
+    client = Client("shazybha12-ai-video-generator", token=hf_token)
     
     result = client.predict(prompt)
     print("Video generation completed:", result)
