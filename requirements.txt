@@ -1,6 +1,3 @@
-# Ye file Hugging Face SPACE ke liye hai (github repo ke liye nahi)
-# Space ka requirements.txt isse replace karein, phir Space ko Restart/Factory rebuild karein.
-
 gradio==4.44.1
 moviepy==1.0.3
 imageio==2.34.2
