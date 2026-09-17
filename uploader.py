@@ -62,6 +62,12 @@ def generate_video(max_retries=3):
     print(f"Selected Topic: {prompt}")
 
     hf_token = os.environ.get("HF_TOKEN") or None
+    if hf_token:
+        print("HF_TOKEN mil gaya - authenticated request jayegi (zyada ZeroGPU quota milega).")
+    else:
+        print("WARNING: HF_TOKEN nahi mila! Anonymous request jayegi jiska ZeroGPU quota bohot kam hota hai. "
+              "Check karo GitHub repo Settings > Secrets me HF_TOKEN set hai aur workflow yml me "
+              "'env: HF_TOKEN: ${{ secrets.HF_TOKEN }}' step me add hai.")
 
     # Space ko wake up karo (sleeping space par pehli call fail ho jati hai)
     print("Waking up Hugging Face space...")
