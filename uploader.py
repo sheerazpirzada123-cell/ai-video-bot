@@ -21,7 +21,15 @@ def generate_video():
     # Hugging Face Token secret se uthayen
     hf_token = os.environ.get("HF_TOKEN")
     
-    # Hugging Face Space Client Connect
+    # Pehle Space ko wake up karne ke liye request bhejen taaki timeout na ho
+    space_url = "https://shazybha12-ai-video-generator.hf.space"
+    print("Waking up Hugging Face space...")
+    try:
+        requests.get(space_url, timeout=30)
+    except Exception as e:
+        print("Wake-up ping warning (can be ignored if space loads):", e)
+
+    # Hugging Face Space Client Connect (Correct format with slash)
     client = Client("shazybha12/ai-video-generator", token=hf_token)
     
     result = client.predict(prompt)
@@ -30,7 +38,6 @@ def generate_video():
 
 # 2. YouTube Par Video Upload Karein
 def upload_to_youtube(video_path):
-    # GitHub secrets ke mutabiq YOUTUBE_CLIENT_SECRET use kiya gaya hai
     token_data = os.environ.get("YOUTUBE_CLIENT_SECRET")
     if not token_data:
         raise ValueError("YOUTUBE_CLIENT_SECRET secret nahi mila!")
