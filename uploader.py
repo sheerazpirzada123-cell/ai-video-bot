@@ -21,7 +21,7 @@ def generate_video():
     # Hugging Face Token secret se uthayen
     hf_token = os.environ.get("HF_TOKEN")
     
-    # Hugging Face Space Client Connect WITH CORRECT PARAMETER
+    # Hugging Face Space Client Connect
     client = Client("shazybha12-ai-video-generator", token=hf_token)
     
     result = client.predict(prompt)
@@ -30,9 +30,10 @@ def generate_video():
 
 # 2. YouTube Par Video Upload Karein
 def upload_to_youtube(video_path):
+    # GitHub secrets ke mutabiq YOUTUBE_CLIENT_SECRET use kiya gaya hai
     token_data = os.environ.get("YOUTUBE_CLIENT_SECRET")
     if not token_data:
-        raise ValueError("YOUTUBE_TOKEN secret nahi mila!")
+        raise ValueError("YOUTUBE_CLIENT_SECRET secret nahi mila!")
 
     creds_dict = json.loads(token_data)
     credentials = Credentials.from_authorized_user_info(creds_dict)
