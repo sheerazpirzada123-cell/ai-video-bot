@@ -1,8 +1,8 @@
-gradio_client
-gTTS
-moviepy
-google-api-python-client
-google-auth-httplib2
-google-auth-oauthlib
-instagrapi
+gradio==4.44.1
+moviepy==1.0.3
+imageio==2.34.2
+imageio-ffmpeg==0.4.9
+numpy<2
+Pillow==10.4.0
+gTTS==2.5.3
 requests
