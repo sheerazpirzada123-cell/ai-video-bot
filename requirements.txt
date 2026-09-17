@@ -1,8 +1,7 @@
-gradio==4.44.1
-moviepy==1.0.3
-imageio==2.34.2
-imageio-ffmpeg==0.4.9
-numpy<2
-Pillow==10.4.0
-gTTS==2.5.3
+# Ye file GITHUB REPO ke liye hai (Hugging Face Space ke liye nahi)
+gradio_client
 requests
+google-api-python-client
+google-auth
+google-auth-httplib2
+google-auth-oauthlib
