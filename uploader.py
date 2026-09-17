@@ -30,7 +30,7 @@ def generate_video():
 
 # 2. YouTube Par Video Upload Karein
 def upload_to_youtube(video_path):
-    token_data = os.environ.get("YOUTUBE_TOKEN")
+    token_data = os.environ.get("YOUTUBE_CLIENT_SECRET")
     if not token_data:
         raise ValueError("YOUTUBE_TOKEN secret nahi mila!")
 
