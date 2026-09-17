@@ -76,33 +76,38 @@ def generate_video(max_retries=3):
 
     client = Client(SPACE_ID, token=hf_token)
 
-    # Space ke andar ka function kaun sa hai, wo log me dikha do (debugging ke liye)
+    # Space ka sahi endpoint khud dhoondo (is Space me ye "/generate" hai, "/predict" nahi)
+    endpoints = []
     try:
-        client.view_api(print_info=True, return_format=None)
-    except Exception:
-        pass
+        info = client.view_api(print_info=False, return_format="dict")
+        endpoints = ["/" + name.lstrip("/") for name in info.get("named_endpoints", {})]
+    except Exception as e:
+        print("view_api warning:", e)
+    if not endpoints:
+        endpoints = ["/generate", "/predict"]
+    print("Available endpoints:", endpoints)
 
     last_error = None
     for attempt in range(1, max_retries + 1):
-        try:
-            print(f"Predict attempt {attempt}/{max_retries} ...")
-            result = client.predict(prompt, api_name="/predict")
-            print("Raw result:", result)
-            path = _extract_video_path(result)
-            if not path:
-                raise RuntimeError(f"Result me koi video path nahi mila: {result!r}")
-            local = _localize(path)
-            print("Video ready:", local, os.path.getsize(local), "bytes")
-            return local
-        except Exception as e:
-            last_error = e
-            print(f"Attempt {attempt} failed: {type(e).__name__}: {e}")
-            time.sleep(20)
+        for api_name in endpoints:
+            try:
+                print(f"Predict attempt {attempt}/{max_retries} on {api_name} ...")
+                result = client.predict(prompt, api_name=api_name)
+                print("Raw result:", result)
+                path = _extract_video_path(result)
+                if not path:
+                    raise RuntimeError(f"Result me koi video path nahi mila: {result!r}")
+                local = _localize(path)
+                print("Video ready:", local, os.path.getsize(local), "bytes")
+                return local
+            except Exception as e:
+                last_error = e
+                print(f"Failed on {api_name}: {type(e).__name__}: {e}")
+        time.sleep(20)
 
     raise RuntimeError(
-        "Video generate nahi ho saki. Agar error 'AppError: ImportError' hai to masla "
-        "aapke GitHub code me NAHI, Hugging Face Space ke app.py / requirements.txt me hai. "
-        f"Last error: {last_error}"
+        "Video generate nahi ho saki. Agar error 'AppError' hai to masla Hugging Face Space "
+        f"ke app.py me hai, GitHub code me nahi. Last error: {last_error}"
     )
 
 
